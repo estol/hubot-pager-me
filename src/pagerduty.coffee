@@ -1,8 +1,8 @@
 HttpClient = require 'scoped-http-client'
 
 pagerDutyApiKey        = process.env.HUBOT_PAGERDUTY_API_KEY
-pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN
-pagerDutyBaseUrl       = "https://#{pagerDutySubdomain}.pagerduty.com/api/v1"
+# pagerDutySubdomain     = process.env.HUBOT_PAGERDUTY_SUBDOMAIN # https://v2.developer.pagerduty.com/docs/migrating-to-api-v2#BasePath
+pagerDutyBaseUrl       = "https://api.pagerduty.com/"
 pagerDutyServices      = process.env.HUBOT_PAGERDUTY_SERVICES
 pagerNoop              = process.env.HUBOT_PAGERDUTY_NOOP
 pagerNoop               = false if pagerNoop is "false" or pagerNoop  is "off"
@@ -11,7 +11,7 @@ class PagerDutyError extends Error
 module.exports =
   http: (path) ->
     HttpClient.create("#{pagerDutyBaseUrl}#{path}")
-      .headers(Authorization: "Token token=#{pagerDutyApiKey}", Accept: 'application/json')
+      .headers(Authorization: "Token token=#{pagerDutyApiKey}", Accept: 'application/vnd.pagerduty+json;version=2')
 
   missingEnvironmentForApi: (msg) ->
     missingAnything = false
